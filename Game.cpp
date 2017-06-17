@@ -117,6 +117,7 @@ void Game::GameLoop()
 				break;
 			}
 	}
+	_mainWindow.clear();
 }
 
 void Game::ShowSplashScreen()
