@@ -24,7 +24,7 @@ int Game::Start()
 	PlayerPaddle *player1 = new PlayerPaddle();
 	player1->SetPosition((SCREEN_WIDTH/2),700);
 
-	AIPaddle * player2 = new AIPaddle();
+	PlayerPaddle2 * player2 = new PlayerPaddle2();
 	player2->SetPosition((SCREEN_WIDTH/2),40);
 
 	GameBall *ball = new GameBall();

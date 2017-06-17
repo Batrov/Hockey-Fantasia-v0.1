@@ -3,6 +3,7 @@
 #include "SFML/Graphics.hpp"
 #include "SFML/Audio.hpp"
 #include "PlayerPaddle.h"
+#include "PlayerPaddle2.h"
 #include "AIPaddle.h"
 #include "GameBall.h"
 #include "GameObjectManager.h"

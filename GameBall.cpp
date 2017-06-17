@@ -9,6 +9,7 @@ GameBall::GameBall() :
 	_runYet(false)
 
 {
+	ServiceLocator::GetAudio()->PlaySound("audio/kaboom.wav");
 	Load("images/ball.png");
 	assert(IsLoaded());
 
@@ -71,13 +72,8 @@ void GameBall::Update(float elapsedTime) //Parameter is the time since last fram
 
 				moveByY = -moveByY;
 
-				// Make sure ball isn't inside paddle
-				if(GetBoundingRect().width > player1->GetBoundingRect().top)
-				{
-					SetPosition(GetPosition().x,player1->GetBoundingRect().top - GetWidth()/2 -1 );
-				}
 		
-				// Now add "English" based on the players velocity.  
+				/*//iki kadang gawe ngebug sudut mantul bolane, tak koment 
 				float playerVelocity = player1->GetVelocity();
 		
 				if(playerVelocity < 0)
@@ -90,17 +86,12 @@ void GameBall::Update(float elapsedTime) //Parameter is the time since last fram
 				{
 					_angle += 20.0f;
 					if(_angle > 360.0f) _angle = _angle - 360.0f;
-				}
+				}*/
 
 				ServiceLocator::GetAudio()->PlaySound("audio/kaboom.wav");
 				_velocity += 5.0f;
 			}
 
-			if(GetPosition().y - GetHeight()/2 <= 0)
-			{
-				_angle =  180 - _angle;
-				moveByY = -moveByY;
-			}
 
 	
 			//if(GetPosition().y - GetSprite().GetSize().y/2 - moveByY <= 0 || GetPosition().y + GetSprite().GetSize().y/2 + moveByY >= Game::SCREEN_HEIGHT)
@@ -113,8 +104,58 @@ void GameBall::Update(float elapsedTime) //Parameter is the time since last fram
 				_elapsedTimeSinceStart = 0.0f;
 			}
 
-			GetSprite().move(moveByX,moveByY);
 		}
+
+		PlayerPaddle2* player2 = dynamic_cast<PlayerPaddle2*>(Game::GetGameObjectManager().Get("Paddle2"));
+		if (player2 != NULL)
+		{
+			sf::Rect<float> p2BB = player2->GetBoundingRect();
+
+			if (p2BB.intersects(GetBoundingRect()))       //(GetPosition().x + moveByX + (GetSprite().GetSize().x /2),GetPosition().y + (GetSprite().GetSize().y /2) + moveByY))
+			{
+				_angle = 360.0f - (_angle - 180.0f);
+				if (_angle > 360.0f) _angle -= 360.0f;
+
+
+
+				moveByY = -moveByY;
+
+				
+
+				/*//iki kadang gawe ngebug sudut mantul bolane, tak koment
+				float playerVelocity = player2->GetVelocity();
+
+				if (playerVelocity < 0)
+				{
+					// moving left
+					_angle -= 20.0f;
+					if (_angle < 0) _angle = 360.0f - _angle;
+				}
+				else if (playerVelocity > 0)
+				{
+					_angle += 20.0f;
+					if (_angle > 360.0f) _angle = _angle - 360.0f;
+				}*/
+
+				ServiceLocator::GetAudio()->PlaySound("audio/kaboom.wav");
+				_velocity += 5.0f;
+			}
+
+
+
+			//if(GetPosition().y - GetSprite().GetSize().y/2 - moveByY <= 0 || GetPosition().y + GetSprite().GetSize().y/2 + moveByY >= Game::SCREEN_HEIGHT)
+			if (GetPosition().y - GetHeight() / 2 - moveByY < 0 + GetWidth() / 2)
+			{
+				// move to middle of the screen for now and randomize angle
+				GetSprite().setPosition(Game::SCREEN_WIDTH / 2, Game::SCREEN_HEIGHT / 2);
+				_angle = (rand() % 360) + 1;
+				_velocity = 230.0f;
+				_elapsedTimeSinceStart = 0.0f;
+			}
+
+		}
+		GetSprite().move(moveByX, moveByY);
+		GetSprite().move(moveByX, moveByY);
 	}
 }
 
