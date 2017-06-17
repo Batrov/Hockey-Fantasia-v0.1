@@ -207,19 +207,13 @@ Settings::SettingResult Settings::Show(sf::RenderWindow& window) {
 	_settingItems.push_back(spd1Button);
 	_settingItems.push_back(spd2Button);
 
-	sf::Texture m_texture;
-	sf::Sprite m_sprite;
 	sf::Shader m_shader;
-	m_texture.loadFromFile("images/buttons/btn1_1.png");
-	m_sprite.setTexture(m_texture);
 
 	// Load the shader
 	m_shader.loadFromFile("shaderFragment.frag", sf::Shader::Fragment);
 	m_shader.setUniform("texture", sf::Shader::CurrentTexture);
-	sf::RenderStates states;
-	states.shader = &m_shader;
 	window.draw(sprite);
-	window.draw(sprite1,states);
+	window.draw(sprite1,&m_shader);
 	window.draw(sprite2);
 	window.draw(sprite3);
 	window.draw(sprite4);
