@@ -32,7 +32,14 @@ void VisibleGameObject::Draw(sf::RenderWindow & renderWindow)
 {
 	if(_isLoaded)
 	{
-		renderWindow.draw(_sprite);
+		sf::Shader m_shader;
+
+		// Load the shader
+		m_shader.loadFromFile("shaderFragment.frag", sf::Shader::Fragment);
+		m_shader.setUniform("texture", sf::Shader::CurrentTexture);
+		sf::RenderStates states;
+		states.shader = &m_shader;
+		renderWindow.draw(_sprite,states);
 	}
 }
 
