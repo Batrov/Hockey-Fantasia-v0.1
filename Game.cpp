@@ -150,28 +150,32 @@ void Game::ShowSetting() {
 		//do something
 		ServiceLocator::GetAudio()->PlaySound("audio/blip.wav");
 		soundProvider.ToggleSounds();
-		settingPage.updateButton(1, _mainWindow);
-		
+		settingPage.updateButton(1);
 		break;
 	case Settings::Difficulty:
 		//do something
 		ServiceLocator::GetAudio()->PlaySound("audio/blip.wav");
+		settingPage.updateButton(2);
 		break;
 	case Settings::BallSpeed:
 		//do something
 		ServiceLocator::GetAudio()->PlaySound("audio/blip.wav");
+		settingPage.updateButton(3);
 		break;
 	case Settings::BallColor:
 		//do something
 		ServiceLocator::GetAudio()->PlaySound("audio/blip.wav");
+		settingPage.updateButton(4);
 		break;
 	case Settings::Player1Speed:
 		//do something
 		ServiceLocator::GetAudio()->PlaySound("audio/blip.wav");
+		settingPage.updateButton(5);
 		break;
 	case Settings::Player2Speed:
 		//do something
 		ServiceLocator::GetAudio()->PlaySound("audio/blip.wav");
+		settingPage.updateButton(6);
 		break;
 	}
 }

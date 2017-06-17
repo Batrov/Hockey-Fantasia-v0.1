@@ -2,17 +2,50 @@
 #include "Settings.h"
 #include "VisibleGameObject.h"
 #include "ServiceLocator.h"
+bool musicOn = true;
+int diffLevel = 1;
+int ballSpdLevel = 1;
+int ballClrID = 0;
+int player1SpdID = 1;
+int player2SpdID = 1;
 
-void Settings::updateButton(int id, sf::RenderWindow & window) {
-	window.clear(sf::Color(0, 0, 0));
-	if (id == 1) {
-		tex1_0.loadFromFile("images/buttons/btn1_0.png");
-		sprite1.setTexture(tex1_0);
-		sprite1.move(1,1);
+
+void Settings::updateButton(int id) {
+	switch (id) {
+	case 1:
+		musicOn = !musicOn;
+		break;
+	case 2:
+		diffLevel++;
+		if (diffLevel == 3) {
+			diffLevel = 0;
+		}
+		break;
+	case 3:
+		ballSpdLevel++;
+		if (ballSpdLevel == 3) {
+			ballSpdLevel = 0;
+		}
+		break;
+	case 4:
+		ballClrID++;
+		if (ballClrID == 3) {
+			ballClrID = 0;
+		}
+		break;
+	case 5:
+		player1SpdID++;
+		if (player1SpdID == 3) {
+			player1SpdID = 0;
+		}
+		break;
+	case 6:
+		player2SpdID++;
+		if (player2SpdID == 3) {
+			player2SpdID = 0;
+		}
+		break;
 	}
-	window.draw(sprite);
-	window.draw(sprite1);
-	window.display();
 }
 
 Settings::SettingResult Settings::Show(sf::RenderWindow& window) {
@@ -22,8 +55,96 @@ Settings::SettingResult Settings::Show(sf::RenderWindow& window) {
 	sprite.setTexture(image);
 
 	tex1_0.loadFromFile("images/buttons/btn1_0.png");
-//	sprite1.setTexture(tex1_0);
+	tex1_1.loadFromFile("images/buttons/btn1_1.png");
+
+	tex2_0.loadFromFile("images/buttons/btn2_0.png");
+	tex2_1.loadFromFile("images/buttons/btn2_1.png");
+	tex2_2.loadFromFile("images/buttons/btn2_2.png");
+
+	tex3_0.loadFromFile("images/buttons/btn3_0.png");
+	tex3_1.loadFromFile("images/buttons/btn3_1.png");
+	tex3_2.loadFromFile("images/buttons/btn3_2.png");
+
+	tex4_0.loadFromFile("images/buttons/btn4_0.png");
+	tex4_1.loadFromFile("images/buttons/btn4_1.png");
+	tex4_2.loadFromFile("images/buttons/btn4_2.png");
+
+	tex5_0.loadFromFile("images/buttons/btn5_0.png");
+	tex5_1.loadFromFile("images/buttons/btn5_1.png");
+	tex5_2.loadFromFile("images/buttons/btn5_2.png");
+
+
+	
+	if (musicOn)	{sprite1.setTexture(tex1_1);}
+	else			{sprite1.setTexture(tex1_0);}
 	sprite1.setPosition(550, 160);
+
+
+	switch (diffLevel) {
+	case 0:
+		sprite2.setTexture(tex2_0);
+		break;
+	case 1:
+		sprite2.setTexture(tex2_1);
+		break;
+	case 2:
+		sprite2.setTexture(tex2_2);
+		break;
+	}
+	sprite2.setPosition(550, 275);
+
+	switch (ballSpdLevel) {
+	case 0:
+		sprite3.setTexture(tex3_0);
+		break;
+	case 1:
+		sprite3.setTexture(tex3_1);
+		break;
+	case 2:
+		sprite3.setTexture(tex3_2);
+		break;
+	}
+	sprite3.setPosition(550, 390);
+
+	switch (ballClrID) {
+	case 0:
+		sprite4.setTexture(tex4_0);
+		break;
+	case 1:
+		sprite4.setTexture(tex4_1);
+		break;
+	case 2:
+		sprite4.setTexture(tex4_2);
+		break;
+	}
+	sprite4.setPosition(550, 505);
+
+	switch (player1SpdID) {
+	case 0:
+		sprite5.setTexture(tex5_0);
+		break;
+	case 1:
+		sprite5.setTexture(tex5_1);
+		break;
+	case 2:
+		sprite5.setTexture(tex5_2);
+		break;
+	}
+	sprite5.setPosition(550, 620);
+
+	switch (player2SpdID) {
+	case 0:
+		sprite6.setTexture(tex5_0);
+		break;
+	case 1:
+		sprite6.setTexture(tex5_1);
+		break;
+	case 2:
+		sprite6.setTexture(tex5_2);
+		break;
+	}
+	sprite6.setPosition(550, 690);
+
 
 	//Setup clickable regions
 
@@ -87,6 +208,13 @@ Settings::SettingResult Settings::Show(sf::RenderWindow& window) {
 	_settingItems.push_back(spd2Button);
 
 	window.draw(sprite);
+	window.draw(sprite1);
+	window.draw(sprite2);
+	window.draw(sprite3);
+	window.draw(sprite4);
+	window.draw(sprite5);
+	window.draw(sprite6);
+
 	window.display();
 
 	return GetMenuResponse(window);
