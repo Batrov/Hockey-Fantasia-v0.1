@@ -1,0 +1,18 @@
+﻿  stdafx.cpp
+  AIPaddle.cpp
+  Game.cpp
+  GameBall.cpp
+GameBall.cpp(15): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+GameBall.cpp(108): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  GameObjectManager.cpp
+GameObjectManager.cpp(40): warning C4267: 'return': conversion from 'size_t' to 'int', possible loss of data
+  MainMenu.cpp
+  Pang.cpp
+  PlayerPaddle.cpp
+  ServiceLocator.cpp
+  SFMLSoundProvider.cpp
+SFMLSoundProvider.cpp(30): warning C4101: 'snfe': unreferenced local variable
+  SoundFileCache.cpp
+  SplashScreen.cpp
+  VisibleGameObject.cpp
+sfml-graphics.lib(sfml-graphics-2.dll) : fatal error LNK1112: module machine type 'X86' conflicts with target machine type 'x64'
