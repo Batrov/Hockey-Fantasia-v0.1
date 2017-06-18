@@ -21,7 +21,7 @@ goal.setBuffer(buffer);
 goal.play();*/
 
 SFMLSoundProvider soundProvider;
-float ballveloID = 1;
+int ballveloID = 1;
 int ply1veloModID = 1;
 int ply2veloModID = 1;
 int ballColorID = 0;
@@ -43,14 +43,12 @@ int Game::Start()
 
 	PlayerPaddle *player1 = new PlayerPaddle();
 	player1->SetPosition((SCREEN_WIDTH/2),700);
-	player1->sclPad1(sclPadID);
 
 	Score1 *score1 = new Score1();
 	score1->SetPosition((SCREEN_WIDTH * 25/100), 600);
 
 	PlayerPaddle2 * player2 = new PlayerPaddle2();
 	player2->SetPosition((SCREEN_WIDTH/2),40);
-	player2->sclPad2(sclPadID);
 
 	Score2 *score2 = new Score2();
 	score2->SetPosition((SCREEN_WIDTH * 75/100), 140);
@@ -76,9 +74,6 @@ int Game::Start()
 	{
 		score1->goalUpd1(scoreP1);
 		score2->goalUpd2(scoreP2);
-		player1->updPlyVelo(ply1veloModID);
-		player2->updPlyVelo(ply2veloModID);
-		ball->updVelo(ballveloID);
 		GameLoop();
 	}
 
@@ -171,14 +166,18 @@ void Game::GameLoop()
 					_gameObjectManager.Remove("Ball");
 						_gameState = Game::ShowingMenu; 
 						PlayerPaddle *player1 = new PlayerPaddle();
-						player1->SetPosition((SCREEN_WIDTH / 2), 700);
 
 						PlayerPaddle2 * player2 = new PlayerPaddle2();
-						player2->SetPosition((SCREEN_WIDTH / 2), 40);
 
 						GameBall *ball = new GameBall();
+						player1->SetPosition((SCREEN_WIDTH / 2), 700);
+						player2->SetPosition((SCREEN_WIDTH / 2), 40);
 						ball->SetPosition((SCREEN_WIDTH / 2), (SCREEN_HEIGHT / 2) - 15);
-
+						player1->sclPad1(sclPadID);
+						player2->sclPad2(sclPadID);
+						player1->updPlyVelo(ply1veloModID);
+						player2->updPlyVelo(ply2veloModID);
+						ball->updVelo(ballveloID);
 						scoreP1 = 0;
 						scoreP2 = 0;
 
@@ -210,7 +209,9 @@ void Game::ShowTutorial()
 
 void Game::ShowSetting() {
 	Settings settingPage;
-
+	PlayerPaddle *player1 = new PlayerPaddle();
+	PlayerPaddle2 * player2 = new PlayerPaddle2();
+	GameBall *ball = new GameBall();
 	Settings::SettingResult result = settingPage.Show(_mainWindow);
 	switch (result) {
 	case Settings::Exit:
@@ -219,6 +220,20 @@ void Game::ShowSetting() {
 	case Settings::Back:
 		_gameState = ShowingMenu;
 		kaboom.play();
+		_gameObjectManager.Remove("Paddle1");
+		_gameObjectManager.Remove("Paddle2");
+		_gameObjectManager.Remove("Ball");
+		player1->SetPosition((SCREEN_WIDTH / 2), 700);
+		player2->SetPosition((SCREEN_WIDTH / 2), 40);
+		ball->SetPosition((SCREEN_WIDTH / 2), (SCREEN_HEIGHT / 2) - 15);
+		player1->sclPad1(sclPadID);
+		player2->sclPad2(sclPadID);
+		player1->updPlyVelo(ply1veloModID);
+		player2->updPlyVelo(ply2veloModID);
+		ball->updVelo(ballveloID);
+		_gameObjectManager.Add("Paddle1", player1);
+		_gameObjectManager.Add("Paddle2", player2);
+		_gameObjectManager.Add("Ball", ball);
 		break;
 	case Settings::Music:
 		//do something
@@ -293,20 +308,7 @@ void Game::ShowSetting() {
 
 		break;
 	}
-	_gameObjectManager.Remove("Paddle1");
-	_gameObjectManager.Remove("Paddle2");
-	PlayerPaddle *player1 = new PlayerPaddle();
-	player1->SetPosition((SCREEN_WIDTH / 2), 700);
-
-	PlayerPaddle2 * player2 = new PlayerPaddle2();
-	player2->SetPosition((SCREEN_WIDTH / 2), 40);
-
-
-	player1->sclPad1(sclPadID);
-	player2->sclPad2(sclPadID);
-
-	_gameObjectManager.Add("Paddle1", player1);
-	_gameObjectManager.Add("Paddle2", player2);
+	
 }
 
 void Game::ShowMenu()
