@@ -28,14 +28,22 @@ int Game::Start()
 	PlayerPaddle *player1 = new PlayerPaddle();
 	player1->SetPosition((SCREEN_WIDTH/2),700);
 
+	Score1 *score1 = new Score1();
+	score1->SetPosition((SCREEN_WIDTH * 25/100), 600);
+
 	PlayerPaddle2 * player2 = new PlayerPaddle2();
 	player2->SetPosition((SCREEN_WIDTH/2),40);
+
+	Score2 *score2 = new Score2();
+	score2->SetPosition((SCREEN_WIDTH * 75/100), 140);
 
 	GameBall *ball = new GameBall();
 	ball->SetPosition((SCREEN_WIDTH/2),(SCREEN_HEIGHT/2)-15);
 	
 	_gameObjectManager.Add("Paddle1",player1);
+	_gameObjectManager.Add("Score1", score1);
 	_gameObjectManager.Add("Paddle2",player2);
+	_gameObjectManager.Add("Score2", score2);
 	_gameObjectManager.Add("Ball",ball);
 
 	_gameState= Game::ShowingSplash;
@@ -43,6 +51,8 @@ int Game::Start()
 
 	while(!IsExiting())
 	{
+		score1->goalUpd1(scoreP1);
+		score2->goalUpd2(scoreP2);
 		player1->updPlyVelo(ply1veloModID);
 		player2->updPlyVelo(ply2veloModID);
 		ball->updVelo(ballveloID);

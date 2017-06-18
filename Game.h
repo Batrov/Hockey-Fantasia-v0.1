@@ -4,7 +4,8 @@
 #include "SFML/Audio.hpp"
 #include "PlayerPaddle.h"
 #include "PlayerPaddle2.h"
-#include "AIPaddle.h"
+#include "Score1.h"
+#include "Score2.h"
 #include "GameBall.h"
 #include "GameObjectManager.h"
 
@@ -18,6 +19,8 @@ public:
 
 	const static int SCREEN_WIDTH = 1024;
 	const static int SCREEN_HEIGHT = 768;
+	const static int scoreP1 = 2;
+	const static int scoreP2 = 6;
 
 private:
 	static bool IsExiting();

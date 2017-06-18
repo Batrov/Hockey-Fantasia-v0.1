@@ -3,6 +3,7 @@
 #include "Game.h"
 
 float veloRange2 = 200;
+float scalePad2 = 1;
 
 PlayerPaddle2::PlayerPaddle2() :
 	_velocity(0),
@@ -12,7 +13,7 @@ PlayerPaddle2::PlayerPaddle2() :
 	assert(IsLoaded());
 
 	GetSprite().setOrigin(GetSprite().getLocalBounds().width / 2, GetSprite().getLocalBounds().height / 2);
-
+	GetSprite().scale(scalePad2,1);
 }
 
 
@@ -45,7 +46,7 @@ void PlayerPaddle2::updPlyVelo(int modID) {
 
 void PlayerPaddle2::Update(float elapsedTime)
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 	{
 		_fast = 2;
 	}
@@ -53,11 +54,11 @@ void PlayerPaddle2::Update(float elapsedTime)
 	{
 		_fast = 1;
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A) && !maxLeft)
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) && !maxLeft)
 	{
 		_velocity = -veloRange2 * _fast;
 	}
-	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::D) && !maxRight)
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) && !maxRight)
 	{
 		_velocity = veloRange2 * _fast;
 	}

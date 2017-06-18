@@ -71,6 +71,12 @@
     <ClInclude Include="PlayerPaddle2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Score1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Score2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -119,6 +125,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PlayerPaddle2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Score1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Score2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

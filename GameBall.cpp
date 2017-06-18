@@ -9,7 +9,7 @@ GameBall::GameBall() :
 	_runYet(false)
 
 {
-	ServiceLocator::GetAudio()->PlaySound("audio/kaboom.wav");
+	//ServiceLocator::GetAudio()->PlaySound("audio/kaboom.wav");
 	Load("images/ball.png");
 	assert(IsLoaded());
 
@@ -67,11 +67,8 @@ void GameBall::Update(float elapsedTime) //Parameter is the time since last fram
 			{ 
 				_angle =  360.0f - (_angle - 180.0f);
 				if(_angle > 360.0f) _angle -= 360.0f;
-		
-		
 
 				moveByY = -moveByY;
-
 		
 				/*//iki kadang gawe ngebug sudut mantul bolane, tak koment 
 				float playerVelocity = player1->GetVelocity();
@@ -95,8 +92,11 @@ void GameBall::Update(float elapsedTime) //Parameter is the time since last fram
 
 	
 			//if(GetPosition().y - GetSprite().GetSize().y/2 - moveByY <= 0 || GetPosition().y + GetSprite().GetSize().y/2 + moveByY >= Game::SCREEN_HEIGHT)
+			//Player 2 Scores
 			if(GetPosition().y + GetHeight()/2 + moveByY >= Game::SCREEN_HEIGHT)
 			{
+				ServiceLocator::GetAudio()->PlaySound("audio/goal.wav"); //player2 goal
+
 				// move to middle of the screen for now and randomize angle
 				GetSprite().setPosition(Game::SCREEN_WIDTH/2, Game::SCREEN_HEIGHT/2);
 				_angle = (rand()%360)+1;
@@ -144,12 +144,14 @@ void GameBall::Update(float elapsedTime) //Parameter is the time since last fram
 
 
 			//if(GetPosition().y - GetSprite().GetSize().y/2 - moveByY <= 0 || GetPosition().y + GetSprite().GetSize().y/2 + moveByY >= Game::SCREEN_HEIGHT)
+			//Player 1 Scores
 			if (GetPosition().y - GetHeight() / 2 - moveByY < 0 + GetWidth() / 2)
 			{
+				//Game::scoreP1++;
+				ServiceLocator::GetAudio()->PlaySound("audio/goal.wav");
 				// move to middle of the screen for now and randomize angle
 				GetSprite().setPosition(Game::SCREEN_WIDTH / 2, Game::SCREEN_HEIGHT / 2);
 				_angle = (rand() % 360) + 1;
-				//_velocity = 230.0f;
 				_elapsedTimeSinceStart = 0.0f;
 			}
 
