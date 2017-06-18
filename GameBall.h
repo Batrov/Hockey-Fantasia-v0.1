@@ -9,7 +9,7 @@ public:
 	GameBall();
 	virtual ~GameBall();
 	void Update(float);
-	void updVelo(float mod);
+	void updVelo(int mod);
 
 private:
 	float _velocity;

@@ -20,6 +20,6 @@ Player 2 (sisi atas layar) :
 
 Credits :
 -. Hermawan Wijaya		: 145150200111205
--. Yoshua Aditya Kurnia		:
--. Kevin Dwiki Saputra		:
--. Dhika Rozqi Anggitama	:
+-. Yoshua Aditya Kurnia		: 145150201111044
+-. Kevin Dwiki Saputra		: 145150200111155
+-. Dhika Rozqi Anggitama	: 145150207111131

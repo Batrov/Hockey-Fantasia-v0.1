@@ -8,6 +8,18 @@
 #include "SFMLSoundProvider.h"
 #include "ServiceLocator.h"
 
+sf::SoundBuffer bufferBlip, bufferKaboom;
+sf::Sound blip, kaboom;
+/*buffer.loadFromFile("audio/blip.wav");
+blip.setBuffer(buffer);
+blip.play();
+buffer.loadFromFile("audio/kaboom.wav");
+kaboom.setBuffer(buffer);
+kaboom.play();
+buffer.loadFromFile("audio/goal.wav");
+goal.setBuffer(buffer);
+goal.play();*/
+
 SFMLSoundProvider soundProvider;
 float ballveloID = 1;
 int ply1veloModID = 1;
@@ -46,6 +58,10 @@ int Game::Start()
 	GameBall *ball = new GameBall();
 	ball->SetPosition((SCREEN_WIDTH/2),(SCREEN_HEIGHT/2)-15);
 	
+	bufferBlip.loadFromFile("audio/blip.wav");
+	blip.setBuffer(bufferBlip);
+	bufferKaboom.loadFromFile("audio/kaboom.wav");
+	kaboom.setBuffer(bufferKaboom);
 
 	_gameObjectManager.Add("Paddle1",player1);
 	_gameObjectManager.Add("Score1", score1);
@@ -125,43 +141,53 @@ void Game::GameLoop()
 			}
 		case Game::Playing:
 			{
-				_mainWindow.clear(sf::Color(0,0,0));
+			_mainWindow.clear(sf::Color(0, 0, 0));
+			if (scoreP1 == 7) {
+				sf::Texture image;
+				image.loadFromFile("images/arena1.png");
+				sf::Sprite sprite(image);
+				_mainWindow.draw(sprite);
+			}
+			else if (scoreP2 == 7) {
+				sf::Texture image;
+				image.loadFromFile("images/arena2.png");
+				sf::Sprite sprite(image);
+				_mainWindow.draw(sprite);
+			}
+			else{
 				sf::Texture image;
 				image.loadFromFile("images/arena.png");
 				sf::Sprite sprite(image);
 				_mainWindow.draw(sprite);
 				_gameObjectManager.UpdateAll();
-				_gameObjectManager.DrawAll(_mainWindow,ballColorID);
-				
-				_mainWindow.display();
+			}
+			_gameObjectManager.DrawAll(_mainWindow, ballColorID);
+			_mainWindow.display();
+			if(currentEvent.type == sf::Event::KeyPressed)
+				{
+				if (currentEvent.key.code == sf::Keyboard::Escape) { 
+					_gameObjectManager.Remove("Paddle1");
+					_gameObjectManager.Remove("Paddle2");
+					_gameObjectManager.Remove("Ball");
+						_gameState = Game::ShowingMenu; 
+						PlayerPaddle *player1 = new PlayerPaddle();
+						player1->SetPosition((SCREEN_WIDTH / 2), 700);
 
-				if(currentEvent.type == sf::Event::KeyPressed)
-					{
-					if (currentEvent.key.code == sf::Keyboard::Escape) { 
-						_gameObjectManager.Remove("Paddle1");
-						_gameObjectManager.Remove("Paddle2");
-						_gameObjectManager.Remove("Ball");
-							_gameState = Game::ShowingMenu; 
-							PlayerPaddle *player1 = new PlayerPaddle();
-							player1->SetPosition((SCREEN_WIDTH / 2), 700);
-							player1->sclPad1(sclPadID);
+						PlayerPaddle2 * player2 = new PlayerPaddle2();
+						player2->SetPosition((SCREEN_WIDTH / 2), 40);
 
-							PlayerPaddle2 * player2 = new PlayerPaddle2();
-							player2->SetPosition((SCREEN_WIDTH / 2), 40);
-							player2->sclPad2(sclPadID);
+						GameBall *ball = new GameBall();
+						ball->SetPosition((SCREEN_WIDTH / 2), (SCREEN_HEIGHT / 2) - 15);
 
-							GameBall *ball = new GameBall();
-							ball->SetPosition((SCREEN_WIDTH / 2), (SCREEN_HEIGHT / 2) - 15);
+						scoreP1 = 0;
+						scoreP2 = 0;
 
-							scoreP1 = 0;
-							scoreP2 = 0;
-
-							_gameObjectManager.Add("Paddle1", player1);
-							_gameObjectManager.Add("Paddle2", player2);
-							_gameObjectManager.Add("Ball", ball);
-						}
+						_gameObjectManager.Add("Paddle1", player1);
+						_gameObjectManager.Add("Paddle2", player2);
+						_gameObjectManager.Add("Ball", ball);
 					}
-				break;
+				}
+			break;
 			}
 	}
 	_mainWindow.clear();
@@ -184,8 +210,6 @@ void Game::ShowTutorial()
 
 void Game::ShowSetting() {
 	Settings settingPage;
-	PlayerPaddle *player1 = new PlayerPaddle();
-	PlayerPaddle2 * player2 = new PlayerPaddle2();
 
 	Settings::SettingResult result = settingPage.Show(_mainWindow);
 	switch (result) {
@@ -194,17 +218,17 @@ void Game::ShowSetting() {
 		break;
 	case Settings::Back:
 		_gameState = ShowingMenu;
-		ServiceLocator::GetAudio()->PlaySound("audio/kaboom.wav");
+		kaboom.play();
 		break;
 	case Settings::Music:
 		//do something
-		ServiceLocator::GetAudio()->PlaySound("audio/blip.wav");
+		blip.play();
 		soundProvider.ToggleSounds();
 		settingPage.updateButton(1);
 		break;
 	case Settings::Difficulty:
 		//do something
-		ServiceLocator::GetAudio()->PlaySound("audio/blip.wav");
+		blip.play();
 		settingPage.updateButton(2);
 		if (sclPadID == 0) {
 			sclPadID = 1;
@@ -215,13 +239,11 @@ void Game::ShowSetting() {
 		else if (sclPadID == 2) {
 			sclPadID = 0;
 		}
-		player1->sclPad1(sclPadID);
-		player2->sclPad2(sclPadID);
 		break;
 
 	case Settings::BallSpeed:
 		//do something
-		ServiceLocator::GetAudio()->PlaySound("audio/blip.wav");
+		blip.play();
 		settingPage.updateButton(3);
 		if (ballveloID == 0) {
 			ballveloID = 1;
@@ -232,17 +254,17 @@ void Game::ShowSetting() {
 		else if (ballveloID == 2) {
 			ballveloID = 0;
 		}
-		
+
 		break;
 	case Settings::BallColor:
 		//do something
-		ServiceLocator::GetAudio()->PlaySound("audio/blip.wav");
+		blip.play();
 		settingPage.updateButton(4);
 		ballColorID++;
 		break;
 	case Settings::Player1Speed:
 		//do something
-		ServiceLocator::GetAudio()->PlaySound("audio/blip.wav");
+		blip.play();
 		settingPage.updateButton(5);
 		if (ply1veloModID == 0) {
 			ply1veloModID = 1;
@@ -257,7 +279,7 @@ void Game::ShowSetting() {
 		break;
 	case Settings::Player2Speed:
 		//do something
-		ServiceLocator::GetAudio()->PlaySound("audio/blip.wav");
+		blip.play();
 		settingPage.updateButton(6);
 		if (ply2veloModID == 0) {
 			ply2veloModID = 1;
@@ -271,6 +293,20 @@ void Game::ShowSetting() {
 
 		break;
 	}
+	_gameObjectManager.Remove("Paddle1");
+	_gameObjectManager.Remove("Paddle2");
+	PlayerPaddle *player1 = new PlayerPaddle();
+	player1->SetPosition((SCREEN_WIDTH / 2), 700);
+
+	PlayerPaddle2 * player2 = new PlayerPaddle2();
+	player2->SetPosition((SCREEN_WIDTH / 2), 40);
+
+
+	player1->sclPad1(sclPadID);
+	player2->sclPad2(sclPadID);
+
+	_gameObjectManager.Add("Paddle1", player1);
+	_gameObjectManager.Add("Paddle2", player2);
 }
 
 void Game::ShowMenu()
@@ -280,19 +316,19 @@ void Game::ShowMenu()
 	switch(result)
 	{
 		case MainMenu::Exit:
-			ServiceLocator::GetAudio()->PlaySound("audio/blip.wav");
+			blip.play(); 
 			_gameState = Exiting;
 			break;
 		case MainMenu::Play:
-			ServiceLocator::GetAudio()->PlaySound("audio/blip.wav");
+			blip.play(); 
 			_gameState = Playing;
 			break;
 		case MainMenu::Tutorial:
-			ServiceLocator::GetAudio()->PlaySound("audio/blip.wav");
+			blip.play(); 
 			_gameState = OpenTutorial;
 			break;
 		case MainMenu::Setting:
-			ServiceLocator::GetAudio()->PlaySound("audio/blip.wav");
+			blip.play(); 
 			_gameState = SetGame;
 			break;
 	}

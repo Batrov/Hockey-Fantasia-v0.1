@@ -2,14 +2,14 @@
 #include "GameBall.h"
 #include "Game.h"
 #include "ServiceLocator.h"
-static GameObjectManager _gameObjectManager;
+sf::SoundBuffer bufferKaboom2,bufferGoal;
+sf::Sound kaboom2, goal;
 GameBall::GameBall() :
 	_velocity(230.0f),
 	_elapsedTimeSinceStart(0.0f),
 	_runYet(false)
 
 {
-	//ServiceLocator::GetAudio()->PlaySound("audio/kaboom.wav");
 	Load("images/ball.png");
 	assert(IsLoaded());
 
@@ -17,6 +17,12 @@ GameBall::GameBall() :
 	float random_integer = std::rand() % 360 + 1; //Gives random number between 1 and 360.
 	_angle = random_integer;
 	//_angle = (float)(sf::Randomizer::Random(0,360);
+
+	bufferKaboom2.loadFromFile("audio/kaboom.wav");
+	kaboom2.setBuffer(bufferKaboom2);
+	bufferGoal.loadFromFile("audio/goal.wav");
+	goal.setBuffer(bufferGoal);
+
 }
 
 
@@ -27,7 +33,6 @@ GameBall::~GameBall()
 
 void GameBall::Update(float elapsedTime) //Parameter is the time since last frame in seconds. VERY small number.
 {
-	//ServiceLocator::GetAudio()->PlaySound("audio/Soundtrack.ogg");
 
 	if(_runYet == false)
 		_runYet = true;
@@ -47,16 +52,18 @@ void GameBall::Update(float elapsedTime) //Parameter is the time since last fram
 
 	
 		//collide with the left side of the screen
-		if(GetPosition().x + moveByX <= 0 + GetWidth()/2 || GetPosition().x + GetHeight()/2 + moveByX >= Game::SCREEN_WIDTH)
+		if(GetPosition().x + moveByX <= 0 + GetWidth()/2)
 		{
 			//Ricochet!
-			_angle = 360.0f - _angle;
-			if(_angle > 260.0f && _angle < 280.0f) _angle += 20.0f;
-			if(_angle > 80.0f && _angle < 100.0f) _angle += 20.0f;
+			_angle = std::rand() % 140 + 20;
 			moveByX = -moveByX;
 		}
-	
-
+		else if(GetPosition().x + GetWidth() / 2 + moveByX >= Game::SCREEN_WIDTH)
+		{
+			//Ricochet!
+			_angle = std::rand() % 140 + 200;
+			moveByX = -moveByX;
+		}
 
 		PlayerPaddle* player1 = dynamic_cast<PlayerPaddle*>(Game::GetGameObjectManager().Get("Paddle1"));
 		if(player1 != NULL)
@@ -65,10 +72,7 @@ void GameBall::Update(float elapsedTime) //Parameter is the time since last fram
 	
 			if(p1BB.intersects(GetBoundingRect()))       //(GetPosition().x + moveByX + (GetSprite().GetSize().x /2),GetPosition().y + (GetSprite().GetSize().y /2) + moveByY))
 			{ 
-				_angle =  360.0f - (_angle - 180.0f);
-				if(_angle > 360.0f) _angle -= 360.0f;
-
-				moveByY = -moveByY;
+				_angle = (std::rand() % 160 + 280)%360;
 		
 				/*//iki kadang gawe ngebug sudut mantul bolane, tak koment 
 				float playerVelocity = player1->GetVelocity();
@@ -84,9 +88,7 @@ void GameBall::Update(float elapsedTime) //Parameter is the time since last fram
 					_angle += 20.0f;
 					if(_angle > 360.0f) _angle = _angle - 360.0f;
 				}*/
-
-				ServiceLocator::GetAudio()->PlaySound("audio/kaboom.wav");
-				_velocity += 5.0f;
+				kaboom2.play();
 			}
 
 
@@ -96,7 +98,7 @@ void GameBall::Update(float elapsedTime) //Parameter is the time since last fram
 			if(GetPosition().y + GetHeight()/2 + moveByY >= Game::SCREEN_HEIGHT)
 			{
 				Game::scoreP2+=1;
-				ServiceLocator::GetAudio()->PlaySound("audio/goal.wav"); //player2 goal
+				goal.play();
 				// move to middle of the screen for now and randomize angle
 				GetSprite().setPosition(Game::SCREEN_WIDTH/2, Game::SCREEN_HEIGHT/2);
 				_angle = (rand()%360)+1;
@@ -113,14 +115,7 @@ void GameBall::Update(float elapsedTime) //Parameter is the time since last fram
 
 			if (p2BB.intersects(GetBoundingRect()))       //(GetPosition().x + moveByX + (GetSprite().GetSize().x /2),GetPosition().y + (GetSprite().GetSize().y /2) + moveByY))
 			{
-				_angle = 360.0f - (_angle - 180.0f);
-				if (_angle > 360.0f) _angle -= 360.0f;
-
-
-
-				moveByY = -moveByY;
-
-				
+				_angle = std::rand() % 160 + 101;
 
 				/*//iki kadang gawe ngebug sudut mantul bolane, tak koment
 				float playerVelocity = player2->GetVelocity();
@@ -136,33 +131,29 @@ void GameBall::Update(float elapsedTime) //Parameter is the time since last fram
 					_angle += 20.0f;
 					if (_angle > 360.0f) _angle = _angle - 360.0f;
 				}*/
-
-				ServiceLocator::GetAudio()->PlaySound("audio/kaboom.wav");
-				_velocity += 5.0f;
+				kaboom2.play();
 			}
 
 
 
 			//if(GetPosition().y - GetSprite().GetSize().y/2 - moveByY <= 0 || GetPosition().y + GetSprite().GetSize().y/2 + moveByY >= Game::SCREEN_HEIGHT)
 			//Player 1 Scores
-			if (GetPosition().y - GetHeight() / 2 - moveByY < 0 + GetWidth() / 2)
+			if (GetPosition().y - GetHeight() / 2 - moveByY < 0 - GetWidth() / 2)
 			{
 				Game::scoreP1+=1;
-				ServiceLocator::GetAudio()->PlaySound("audio/goal.wav");
+				goal.play();
 				// move to middle of the screen for now and randomize angle
 				GetSprite().setPosition(Game::SCREEN_WIDTH / 2, Game::SCREEN_HEIGHT / 2);
 				_angle = (rand() % 360) + 1;
 				_elapsedTimeSinceStart = 0.0f;
-
 			}
 
 		}
-		GetSprite().move(moveByX, moveByY);
-		GetSprite().move(moveByX, moveByY);
+		GetSprite().move(moveByX, 2*moveByY);
 	}
 }
 
-void GameBall::updVelo(float mod) {
+void GameBall::updVelo(int mod) {
 	if (mod == 0) {
 		_velocity = 100.0f;
 	}

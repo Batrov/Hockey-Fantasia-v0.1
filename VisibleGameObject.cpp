@@ -45,16 +45,18 @@ void VisibleGameObject::Draw(sf::RenderWindow & renderWindow,int ballColorID)
 		switch (ballColorID%3)
 		{
 		case 0:
-			r = 1.0f;
-			g = b = 0.1f;
+			r = 0.95f;
+			g = 0.25f;
+			b = 0.20f;
 			break;
 		case 1:
-			g = 1.0f;
-			r = b = 0.1f;
+			g = 0.7f;
+			r = b = 0.3f;
 			break;
 		case 2:
-			b = 1.0f;
-			g = r = 0.1f;
+			b = 0.9f;
+			g = 0.6f;
+			r = 0.2f;
 			break;
 		}
 		// Load the shader
