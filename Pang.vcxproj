@@ -88,6 +88,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
+    <None Include="shaderFragment.frag" />
+    <None Include="shaderVertex.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIPaddle.h" />
@@ -97,6 +99,7 @@
     <ClInclude Include="IAudioProvider.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="PlayerPaddle.h" />
+    <ClInclude Include="PlayerPaddle2.h" />
     <ClInclude Include="ServiceLocator.h" />
     <ClInclude Include="Settings.h" />
     <ClInclude Include="SFMLSoundProvider.h" />
@@ -115,6 +118,7 @@
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Pang.cpp" />
     <ClCompile Include="PlayerPaddle.cpp" />
+    <ClCompile Include="PlayerPaddle2.cpp" />
     <ClCompile Include="ServiceLocator.cpp" />
     <ClCompile Include="Settings.cpp" />
     <ClCompile Include="SFMLSoundProvider.cpp" />

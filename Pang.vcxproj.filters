@@ -16,6 +16,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />
+    <None Include="shaderFragment.frag" />
+    <None Include="shaderVertex.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -66,6 +68,9 @@
     <ClInclude Include="Tutorial.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerPaddle2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -111,6 +116,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Settings.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerPaddle2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

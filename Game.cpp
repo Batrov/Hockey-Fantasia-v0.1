@@ -9,6 +9,8 @@
 #include "ServiceLocator.h"
 
 SFMLSoundProvider soundProvider;
+float ballveloID = 1;
+
 int Game::Start()
 {
 	if(_gameState != Uninitialized)
@@ -39,6 +41,7 @@ int Game::Start()
 
 	while(!IsExiting())
 	{
+		ball->updVelo(ballveloID);
 		GameLoop();
 	}
 
@@ -105,15 +108,14 @@ void Game::GameLoop()
 
 				_gameObjectManager.UpdateAll();
 				_gameObjectManager.DrawAll(_mainWindow);
-
+				
 				_mainWindow.display();
 				if(currentEvent.type == sf::Event::Closed) _gameState = Game::Exiting;
 
 				if(currentEvent.type == sf::Event::KeyPressed)
 					{
-						if(currentEvent.key.code == sf::Keyboard::Escape) ShowMenu();
+					//	if(currentEvent.key.code == sf::Keyboard::Escape) ShowMenu();
 					}
-
 				break;
 			}
 	}
@@ -162,6 +164,16 @@ void Game::ShowSetting() {
 		//do something
 		ServiceLocator::GetAudio()->PlaySound("audio/blip.wav");
 		settingPage.updateButton(3);
+		if (ballveloID == 0) {
+			ballveloID = 1;
+		}
+		else if (ballveloID == 1) {
+			ballveloID = 2;
+		}
+		else if (ballveloID == 2) {
+			ballveloID = 0;
+		}
+		
 		break;
 	case Settings::BallColor:
 		//do something

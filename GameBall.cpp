@@ -100,7 +100,7 @@ void GameBall::Update(float elapsedTime) //Parameter is the time since last fram
 				// move to middle of the screen for now and randomize angle
 				GetSprite().setPosition(Game::SCREEN_WIDTH/2, Game::SCREEN_HEIGHT/2);
 				_angle = (rand()%360)+1;
-				_velocity = 230.0f;
+				//_velocity = 230.0f;
 				_elapsedTimeSinceStart = 0.0f;
 			}
 
@@ -149,13 +149,25 @@ void GameBall::Update(float elapsedTime) //Parameter is the time since last fram
 				// move to middle of the screen for now and randomize angle
 				GetSprite().setPosition(Game::SCREEN_WIDTH / 2, Game::SCREEN_HEIGHT / 2);
 				_angle = (rand() % 360) + 1;
-				_velocity = 230.0f;
+				//_velocity = 230.0f;
 				_elapsedTimeSinceStart = 0.0f;
 			}
 
 		}
 		GetSprite().move(moveByX, moveByY);
 		GetSprite().move(moveByX, moveByY);
+	}
+}
+
+void GameBall::updVelo(float mod) {
+	if (mod == 0) {
+		_velocity = 100.0f;
+	}
+	else if (mod == 1) {
+		_velocity = 230.0f;
+	}
+	else if (mod == 2) {
+		_velocity = 430.0f;
 	}
 }
 
