@@ -12,6 +12,7 @@ public:
 	void Draw(sf::RenderWindow& rw);
 
 	float GetVelocity() const;
+	void updPlyVelo(int modID);
 
 private:
 	float _velocity;  // -- left ++ right

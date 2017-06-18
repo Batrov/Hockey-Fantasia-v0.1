@@ -2,6 +2,7 @@
 #include "PlayerPaddle.h"
 #include "Game.h"
 
+float veloRange1 = 200;
 
 PlayerPaddle::PlayerPaddle() :
 _velocity(0),
@@ -29,6 +30,19 @@ float PlayerPaddle::GetVelocity() const
 	return _velocity;
 }
 
+void PlayerPaddle::updPlyVelo(int modID) {
+	if (modID == 0) {
+		veloRange1 = 200.0f;
+	}
+	else if (modID == 1) {
+		veloRange1 = 400.0f;
+	}
+	else if (modID == 2) {
+		veloRange1 = 1000.0f;
+	}
+	_maxVelocity = veloRange1 * 2;
+}
+
 void PlayerPaddle::Update(float elapsedTime)
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
@@ -41,11 +55,11 @@ void PlayerPaddle::Update(float elapsedTime)
 	}
 	if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)&&!maxLeft)
 	{
-		_velocity= -200.0f * _fast;
+		_velocity= -veloRange1 * _fast;
 	}
 	else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)&&!maxRight)
 	{
-		_velocity= 200.0f * _fast;
+		_velocity= veloRange1 * _fast;
 	}
 	else
 	{

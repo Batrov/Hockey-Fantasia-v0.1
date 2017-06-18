@@ -10,6 +10,8 @@
 
 SFMLSoundProvider soundProvider;
 float ballveloID = 1;
+int ply1veloModID = 1;
+int ply2veloModID = 1;
 
 int Game::Start()
 {
@@ -41,6 +43,8 @@ int Game::Start()
 
 	while(!IsExiting())
 	{
+		player1->updPlyVelo(ply1veloModID);
+		player2->updPlyVelo(ply2veloModID);
 		ball->updVelo(ballveloID);
 		GameLoop();
 	}
@@ -184,11 +188,31 @@ void Game::ShowSetting() {
 		//do something
 		ServiceLocator::GetAudio()->PlaySound("audio/blip.wav");
 		settingPage.updateButton(5);
+		if (ply1veloModID == 0) {
+			ply1veloModID = 1;
+		}
+		else if (ply1veloModID == 1) {
+			ply1veloModID = 2;
+		}
+		else if (ply1veloModID == 2) {
+			ply1veloModID = 0;
+		}
+
 		break;
 	case Settings::Player2Speed:
 		//do something
 		ServiceLocator::GetAudio()->PlaySound("audio/blip.wav");
 		settingPage.updateButton(6);
+		if (ply2veloModID == 0) {
+			ply2veloModID = 1;
+		}
+		else if (ply2veloModID == 1) {
+			ply2veloModID = 2;
+		}
+		else if (ply2veloModID == 2) {
+			ply2veloModID = 0;
+		}
+
 		break;
 	}
 }

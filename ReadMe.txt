@@ -1,11 +1,10 @@
 ========================================================================
-    CONSOLE APPLICATION : Pang Project Overview
+    CONSOLE APPLICATION : Hockey Fantasia Project Overview
 ========================================================================
-
-AppWizard has created this Pang application for you.
+Team Halcyon has created this Hockey Fantasia application for you.
 
 This file contains a summary of what you will find in each of the files that
-make up your Pang application.
+make up your Hockey Fantasia application.
 
 
 Pang.vcxproj
