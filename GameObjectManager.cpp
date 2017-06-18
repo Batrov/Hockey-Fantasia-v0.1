@@ -26,6 +26,11 @@ void GameObjectManager::Remove(std::string name)
 	}
 }
 
+void GameObjectManager::RemoveAll()
+{
+	_gameObjects.clear();
+}
+
 VisibleGameObject* GameObjectManager::Get(std::string name) const
 {
 	std::map<std::string, VisibleGameObject*>::const_iterator results = _gameObjects.find(name);
@@ -41,13 +46,13 @@ int GameObjectManager::GetObjectCount() const
 }
 
 
-void GameObjectManager::DrawAll(sf::RenderWindow& renderWindow)
+void GameObjectManager::DrawAll(sf::RenderWindow& renderWindow, int ballColorID)
 {
 
 	std::map<std::string,VisibleGameObject*>::const_iterator itr = _gameObjects.begin();
 	while(itr != _gameObjects.end())
 	{
-		itr->second->Draw(renderWindow);
+		itr->second->Draw(renderWindow, ballColorID);
 		itr++;
 	}
 }

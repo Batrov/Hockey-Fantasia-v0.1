@@ -7,6 +7,7 @@ public:
 	
 	virtual void Load(std::string filename);
 	virtual void Draw(sf::RenderWindow & window);
+	virtual void Draw(sf::RenderWindow & window,int ballColorID);
 	virtual void Update(float elapsedTime);
 
 	virtual void SetPosition(float x, float y);

@@ -2,7 +2,7 @@
 #include "GameBall.h"
 #include "Game.h"
 #include "ServiceLocator.h"
-
+static GameObjectManager _gameObjectManager;
 GameBall::GameBall() :
 	_velocity(230.0f),
 	_elapsedTimeSinceStart(0.0f),
@@ -95,8 +95,8 @@ void GameBall::Update(float elapsedTime) //Parameter is the time since last fram
 			//Player 2 Scores
 			if(GetPosition().y + GetHeight()/2 + moveByY >= Game::SCREEN_HEIGHT)
 			{
+				Game::scoreP2+=1;
 				ServiceLocator::GetAudio()->PlaySound("audio/goal.wav"); //player2 goal
-
 				// move to middle of the screen for now and randomize angle
 				GetSprite().setPosition(Game::SCREEN_WIDTH/2, Game::SCREEN_HEIGHT/2);
 				_angle = (rand()%360)+1;
@@ -147,12 +147,13 @@ void GameBall::Update(float elapsedTime) //Parameter is the time since last fram
 			//Player 1 Scores
 			if (GetPosition().y - GetHeight() / 2 - moveByY < 0 + GetWidth() / 2)
 			{
-				//Game::scoreP1++;
+				Game::scoreP1+=1;
 				ServiceLocator::GetAudio()->PlaySound("audio/goal.wav");
 				// move to middle of the screen for now and randomize angle
 				GetSprite().setPosition(Game::SCREEN_WIDTH / 2, Game::SCREEN_HEIGHT / 2);
 				_angle = (rand() % 360) + 1;
 				_elapsedTimeSinceStart = 0.0f;
+
 			}
 
 		}

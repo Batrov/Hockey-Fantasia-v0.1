@@ -13,6 +13,10 @@ float ballveloID = 1;
 int ply1veloModID = 1;
 int ply2veloModID = 1;
 
+int ballColorID = 0;
+
+int Game::scoreP1 = 0;
+int Game::scoreP2 = 0;
 int Game::Start()
 {
 	if(_gameState != Uninitialized)
@@ -40,6 +44,7 @@ int Game::Start()
 	GameBall *ball = new GameBall();
 	ball->SetPosition((SCREEN_WIDTH/2),(SCREEN_HEIGHT/2)-15);
 	
+
 	_gameObjectManager.Add("Paddle1",player1);
 	_gameObjectManager.Add("Score1", score1);
 	_gameObjectManager.Add("Paddle2",player2);
@@ -119,16 +124,40 @@ void Game::GameLoop()
 		case Game::Playing:
 			{
 				_mainWindow.clear(sf::Color(0,0,0));
-
+				sf::Texture image;
+				image.loadFromFile("images/Mainmenu.png");
+				sf::Sprite sprite(image);
+				_mainWindow.draw(sprite);
 				_gameObjectManager.UpdateAll();
-				_gameObjectManager.DrawAll(_mainWindow);
+				_gameObjectManager.DrawAll(_mainWindow,ballColorID);
 				
 				_mainWindow.display();
-				if(currentEvent.type == sf::Event::Closed) _gameState = Game::Exiting;
 
 				if(currentEvent.type == sf::Event::KeyPressed)
 					{
-					//	if(currentEvent.key.code == sf::Keyboard::Escape) ShowMenu();
+					if (currentEvent.key.code == sf::Keyboard::Escape) { 
+						_gameObjectManager.Remove("Paddle1");
+						_gameObjectManager.Remove("Paddle2");
+						_gameObjectManager.Remove("Ball");
+							_gameState = Game::ShowingMenu; 
+							PlayerPaddle *player1 = new PlayerPaddle();
+							player1->SetPosition((SCREEN_WIDTH / 2), 700);
+
+
+							PlayerPaddle2 * player2 = new PlayerPaddle2();
+							player2->SetPosition((SCREEN_WIDTH / 2), 40);
+
+
+							GameBall *ball = new GameBall();
+							ball->SetPosition((SCREEN_WIDTH / 2), (SCREEN_HEIGHT / 2) - 15);
+
+							scoreP1 = 0;
+							scoreP2 = 0;
+
+							_gameObjectManager.Add("Paddle1", player1);
+							_gameObjectManager.Add("Paddle2", player2);
+							_gameObjectManager.Add("Ball", ball);
+						}
 					}
 				break;
 			}
@@ -193,6 +222,7 @@ void Game::ShowSetting() {
 		//do something
 		ServiceLocator::GetAudio()->PlaySound("audio/blip.wav");
 		settingPage.updateButton(4);
+		ballColorID++;
 		break;
 	case Settings::Player1Speed:
 		//do something

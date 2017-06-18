@@ -207,13 +207,8 @@ Settings::SettingResult Settings::Show(sf::RenderWindow& window) {
 	_settingItems.push_back(spd1Button);
 	_settingItems.push_back(spd2Button);
 
-	sf::Shader m_shader;
-
-	// Load the shader
-	m_shader.loadFromFile("shaderFragment.frag", sf::Shader::Fragment);
-	m_shader.setUniform("texture", sf::Shader::CurrentTexture);
 	window.draw(sprite);
-	window.draw(sprite1,&m_shader);
+	window.draw(sprite1);
 	window.draw(sprite2);
 	window.draw(sprite3);
 	window.draw(sprite4);

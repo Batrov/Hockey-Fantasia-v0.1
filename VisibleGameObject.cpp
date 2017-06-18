@@ -32,14 +32,40 @@ void VisibleGameObject::Draw(sf::RenderWindow & renderWindow)
 {
 	if(_isLoaded)
 	{
-		sf::Shader m_shader;
+		renderWindow.draw(_sprite);
+	}
+}
 
+void VisibleGameObject::Draw(sf::RenderWindow & renderWindow,int ballColorID)
+{
+	if (_isLoaded)
+	{
+		float r, g, b;
+		sf::Shader m_shader;
+		switch (ballColorID%3)
+		{
+		case 0:
+			r = 1.0f;
+			g = b = 0.5f;
+			break;
+		case 1:
+			g = 1.0f;
+			r = 0.0f; b = 0.7f;
+			break;
+		case 2:
+			b = 1.0f;
+			g = r = 0.5f;
+			break;
+		}
 		// Load the shader
 		m_shader.loadFromFile("shaderFragment.frag", sf::Shader::Fragment);
+		m_shader.setUniform("merah", r);
+		m_shader.setUniform("ijo", g);
+		m_shader.setUniform("biru", b);
 		m_shader.setUniform("texture", sf::Shader::CurrentTexture);
 		sf::RenderStates states;
 		states.shader = &m_shader;
-		renderWindow.draw(_sprite,states);
+		renderWindow.draw(_sprite, states);
 	}
 }
 

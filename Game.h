@@ -19,8 +19,8 @@ public:
 
 	const static int SCREEN_WIDTH = 1024;
 	const static int SCREEN_HEIGHT = 768;
-	const static int scoreP1 = 2;
-	const static int scoreP2 = 6;
+	static int scoreP1;
+	static int scoreP2;
 
 private:
 	static bool IsExiting();
