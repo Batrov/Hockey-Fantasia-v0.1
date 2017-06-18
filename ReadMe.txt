@@ -18,6 +18,12 @@ Player 2 (sisi atas layar) :
 -. > : menjalankan paddle ke kanan
 -. v : meningkatkan kecepatan paddle
 
+Website :
+http://hockeyfantasia.hol.es/
+
+GitHub :
+https://github.com/Batrov/Hockey-Fantasia-v0.1/
+
 Credits :
 -. Hermawan Wijaya		: 145150200111205
 -. Yoshua Aditya Kurnia		: 145150201111044
