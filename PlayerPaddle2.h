@@ -13,6 +13,8 @@ public:
 
 	float GetVelocity() const;
 	void updPlyVelo(int modID);
+	void sclPad2(int modID);
+
 
 private:
 	float _velocity;  // -- left ++ right

@@ -12,8 +12,8 @@ SFMLSoundProvider soundProvider;
 float ballveloID = 1;
 int ply1veloModID = 1;
 int ply2veloModID = 1;
-
 int ballColorID = 0;
+int sclPadID = 1;
 
 int Game::scoreP1 = 0;
 int Game::scoreP2 = 0;
@@ -31,12 +31,14 @@ int Game::Start()
 
 	PlayerPaddle *player1 = new PlayerPaddle();
 	player1->SetPosition((SCREEN_WIDTH/2),700);
+	player1->sclPad1(sclPadID);
 
 	Score1 *score1 = new Score1();
 	score1->SetPosition((SCREEN_WIDTH * 25/100), 600);
 
 	PlayerPaddle2 * player2 = new PlayerPaddle2();
 	player2->SetPosition((SCREEN_WIDTH/2),40);
+	player2->sclPad2(sclPadID);
 
 	Score2 *score2 = new Score2();
 	score2->SetPosition((SCREEN_WIDTH * 75/100), 140);
@@ -125,7 +127,7 @@ void Game::GameLoop()
 			{
 				_mainWindow.clear(sf::Color(0,0,0));
 				sf::Texture image;
-				image.loadFromFile("images/Mainmenu.png");
+				image.loadFromFile("images/arena.png");
 				sf::Sprite sprite(image);
 				_mainWindow.draw(sprite);
 				_gameObjectManager.UpdateAll();
@@ -142,11 +144,11 @@ void Game::GameLoop()
 							_gameState = Game::ShowingMenu; 
 							PlayerPaddle *player1 = new PlayerPaddle();
 							player1->SetPosition((SCREEN_WIDTH / 2), 700);
-
+							player1->sclPad1(sclPadID);
 
 							PlayerPaddle2 * player2 = new PlayerPaddle2();
 							player2->SetPosition((SCREEN_WIDTH / 2), 40);
-
+							player2->sclPad2(sclPadID);
 
 							GameBall *ball = new GameBall();
 							ball->SetPosition((SCREEN_WIDTH / 2), (SCREEN_HEIGHT / 2) - 15);
@@ -172,7 +174,6 @@ void Game::ShowSplashScreen()
 	_gameState = Game::ShowingMenu;
 }
 
-
 void Game::ShowTutorial() 
 {
 	Tutorial tutorialPage;
@@ -183,6 +184,9 @@ void Game::ShowTutorial()
 
 void Game::ShowSetting() {
 	Settings settingPage;
+	PlayerPaddle *player1 = new PlayerPaddle();
+	PlayerPaddle2 * player2 = new PlayerPaddle2();
+
 	Settings::SettingResult result = settingPage.Show(_mainWindow);
 	switch (result) {
 	case Settings::Exit:
@@ -202,7 +206,19 @@ void Game::ShowSetting() {
 		//do something
 		ServiceLocator::GetAudio()->PlaySound("audio/blip.wav");
 		settingPage.updateButton(2);
+		if (sclPadID == 0) {
+			sclPadID = 1;
+		}
+		else if (sclPadID == 1) {
+			sclPadID = 2;
+		}
+		else if (sclPadID == 2) {
+			sclPadID = 0;
+		}
+		player1->sclPad1(sclPadID);
+		player2->sclPad2(sclPadID);
 		break;
+
 	case Settings::BallSpeed:
 		//do something
 		ServiceLocator::GetAudio()->PlaySound("audio/blip.wav");

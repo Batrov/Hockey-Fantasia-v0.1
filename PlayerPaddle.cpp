@@ -44,6 +44,19 @@ void PlayerPaddle::updPlyVelo(int modID) {
 	_maxVelocity = veloRange1 * 2;
 }
 
+void PlayerPaddle::sclPad1(int modID) {
+	if (modID == 0) {
+		scalePad1 = 2;
+	}
+	else if (modID == 1) {
+		scalePad1 = 1;
+	}
+	else if (modID == 2) {
+		scalePad1 = 0.5;
+	}
+	GetSprite().scale(scalePad1, 1);
+}
+
 void PlayerPaddle::Update(float elapsedTime)
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
